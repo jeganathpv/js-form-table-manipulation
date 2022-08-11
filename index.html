@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact form</title>
+    
+    <link rel="stylesheet" href="styles/styles.css">
+
+    <script src="scripts/main.js"></script>
+</head>
+<body>
+    <header>
+        <div class="menubar">
+            <div id="menuItems" class="menu-items">
+                <div class="menu active" onclick="activateMenu(this),rerenderForm()">
+                    <span class="title">Home</span>
+                </div>
+                <div class="menu" onclick="activateMenu(this),renderTableContent(true)">
+                    <span class="title">Adults</span>
+                </div>
+                <div class="menu" onclick="activateMenu(this),renderTableContent(false)">
+                    <span class="title">Children</span>
+                </div>
+            </div>
+        </div>
+    </header>
+    <section id="contact-form" class="contact-form">
+        <strong><span class="lg bold">Let's Register with us</span></strong>
+
+        <form class="contact" id="contact">
+            <div class="form-control border-line">
+                <i class="icon-person_outline"></i>
+                <input class="input-field" type="text" name="name" placeholder="Name" />
+            </div>
+            <span id="nameValidationMsg" class="input-info-msg" style="display: none;">Name must be less than 32 characters</span>
+            <div class="form-control text-area border-line">
+                <div>
+                    <i class="icon-alternate_email"></i>
+                    <input class="input-field" type="text" name="email" placeholder="Email"
+                        onfocus="hideEmailValidation()" onblur="validateEmail(this)" />
+                </div>
+                <span id="emailValidationMsg" class="input-info-msg" style="display: none;">Invalid Email address</span>
+            </div>
+            <div class="form-control border-line">
+                <i class="icon-phone"></i>
+                <input class="input-field" type="text" name="mobile" placeholder="Mobile"
+                onfocus="hideMobileValidation()" onblur="validateMobileNumber(this)" />
+            </div>
+            <span id="mobileValidationMsg" class="input-info-msg" style="display: none;">Invalid Mobile number</span>
+            <div class="form-control border-line">
+                <i class="icon-phone"></i>
+                <input class="input-field" type="date" name="dob" />
+            </div>
+            <div class="form-control text-area border-line">
+                <div>
+                    <i class="icon-bubble2"></i>
+                    <textarea class="input-field" name="address" type="text" rows="3" maxlength="120"
+                        placeholder="Your address" autocomplete="off" onfocus="onFocusAddressField()"
+                        onblur="validateAddressField()"></textarea>
+                </div>
+                <span id="show-max-length" class="input-info-msg" style="display: none;">Max characters reached</span>
+                <span id="show-char-count"
+                    class="input-info-msg" style="display: none;">{{contact.message.length }}/120 characters used</span>
+            </div>
+            <div class="submit btn btn-primary card" onclick="onSubmitContactForm()">
+                <span>Register</span>
+            </div>
+            <div class="response-msg">
+                <div id="successRegistration">
+                    <span class="form-info-success" style="display: none;">User added successfully</span>
+                </div>
+            </div>
+            <span id="invalidForm" class="input-info-msg form-info-error" style="display: none;">Please check errors & required fields!</span>
+        </form>
+    </section>
+    <section id="user-details" style="display: none;">
+        <div class="no-content">
+            No results found
+        </div>
+        <div class="content">
+
+        </div>
+    </section>
+</body>
+</html>

@@ -1,0 +1,197 @@
+
+
+:root {
+    --primary: #20043e;
+    --primary-light: #30065c;
+    --primary-dark: #1e043a;
+    --secondary: #e5085d;
+    --secondary-light: #f50964;
+    --secondary-dark: #d20855;
+    --font: #f6e8fd;
+    --font-light: #ffffff;
+    --font-dark: #eed2fc;
+}
+
+@font-face {
+    font-family: Muli;
+    src: url(../assets/fonts/muli-regular.woff);
+}
+
+@font-face {
+    font-family: Gilroy-ExtraBold;
+    src: url(../assets/fonts/gilroy-extrabold.otf);
+}
+
+body {
+    font-family: "Muli";
+    margin: 0 auto;
+    background-color: var(--primary);
+    color: var(--font);
+}
+
+.btn {
+    background-color: var(--secondary);
+    border-radius: 5px;
+    margin-top: 15px;
+    padding: 10px;
+    font-size: 20px;
+    box-shadow: 0 10px 20px rgb(0 0 0 / 19%), 0 6px 6px rgb(0 0 0 / 23%);
+}
+  .btn:hover {
+    border: 1px solid var(--secondary);
+    background-color: var(--primary-light);
+  }
+  
+
+.menu-items {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    background-color: var(--primary-light);
+    color: var(--secondary-light);
+    font-family: "Gilroy-Extrabold";
+    font-size: 25px;
+}
+
+.menu-items .menu {
+    padding: 20px;
+}
+
+.menu.active {
+    border-bottom: 2px solid var(--secondary-light);
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+}
+.context {
+    display: flex;
+    flex-direction: column;
+    padding: 10% 4%;
+    background-color: var(--secondary-light);
+    width: 50%;
+}
+.context div {
+    margin: 0 auto;
+    padding: 2%;
+    font-weight: 700;
+}
+.coffee {
+    margin-left: 0px !important;
+}
+.coffee img {
+    width: 200px !important;
+}
+.coffee img:hover {
+    box-shadow: var(--primary-light) 0px 0 10px;
+    border-radius: 10px;
+}
+.contact-form {
+    position: relative;
+    height: auto;
+    width: 50%;
+    margin: auto;
+    padding: 40px 80px;
+    justify-self: flex-end;
+    background-color: var(--primary);
+    display: flex;
+    flex-direction: column;
+    color: var(--font);
+}
+.contact-form .message {
+    padding: 10px 0;
+}
+.contact-form .form-control {
+    margin: 30px 0;
+    display: flex;
+    background-color: var(--primary-dark);
+    padding: 8px 8px;
+}
+.contact-form .form-control i {
+    font-size: 21px;
+    opacity: 0.7;
+    margin-top: 2px;
+    padding-right: 3px;
+}
+.contact-form .form-control .icon-bubble2 {
+    opacity: 0.6;
+}
+.contact-form .border-line {
+    border-bottom: 1px solid var(--secondary-light);
+}
+.contact-form .border-line:focus-within {
+    border-bottom: 1px solid var(--secondary-dark);
+}
+.contact-form .border-line-error {
+    border-bottom: 1px solid var(--secondary-dark) !important;
+}
+.contact-form .input-field {
+    border: 0;
+    color: var(--font);
+    width: 100%;
+    padding: 3px;
+    font-size: 16px;
+    font-family: &#34;
+   Muli&#34;
+   ;
+    background-color: var(--primary);
+}
+.contact-form .input-field:focus {
+    outline: none;
+}
+.contact-form .text-area {
+    display: block;
+    background-color: var(--primary);
+    color: var(--font);
+}
+.contact-form .text-area div {
+    display: flex;
+}
+.contact-form textarea {
+    resize: none;
+}
+.contact-form .submit.btn {
+    width: 80px;
+    text-align: center;
+    float: right;
+}
+.contact-form .submit.btn span {
+    margin: auto !important;
+}
+.contact-form .input-info-msg {
+    color: var(--font-dark);
+    padding-top: 7px;
+}
+.contact-form .response-msg {
+    font-family: &#34;
+   Gilroy-ExtraBold&#34;
+   ;
+    padding-top: 12px;
+}
+.contact-form .response-msg .form-info-error {
+    width: 55%;
+    color: var(--secondary-dark);
+}
+.contact-form .response-msg .form-info-success {
+    width: 55%;
+    color: var(--font-light);
+}
+.message {
+    font-size: 1.5rem;
+}
+/* Tablets and under */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+   }
+    .container .context {
+        width: 100%;
+        padding: 75px 0% 75px 2%;
+   }
+    .contact-form {
+        width: 100%;
+        margin: auto;
+        padding: 40px 0px 40px 5px;
+   }
+}
