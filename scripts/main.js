@@ -1,10 +1,4 @@
 
-// Properties for form validation
-isValidForm = false;
-isValidName = false;
-isValidEmail = false;
-isValidMobileNumber = false;
-
 adults = []
 children = []
 
@@ -40,36 +34,72 @@ function rerenderForm() {
 
 function onSubmitContactForm() {
     let form = document.getElementById('contact');
-    if(!(isValidEmail && isValidName && isValidMobileNumber && form['dob'].value != '' && form['address'].value != null)){
+    if(!(validateEmail() && validateName() && validateMobileNumber() && form['dob'].value != '' && form['address'].value != null)){
         document.getElementById('invalidForm').style.display = ''
         return;
+    }else{
+        document.getElementById('invalidForm').style.display = 'none'
     }
 
     let usersAge = getAgeFromDateString(form['dob'].value)
+    let usersEmail = form['email'].value
     let user = {
         name: form['name'].value,
         mobile: form['mobile'].value,
-        email: form['email'].value,
+        email: usersEmail,
         address: form['address'].value,
         dob: form['dob'].value,
         age: usersAge
     }
     if(isAdult(usersAge)){
+        if(adults.find(user => user.email === usersEmail)){
+            document.getElementById('alreadyExists').style.display = ''
+            return
+        }
         adults.push(user);
     }else{
+        if(children.find(user => user.email === usersEmail)){
+            document.getElementById('alreadyExists').style.display = ''
+            return
+        }
         children.push(user);
     }
+
+    // Show/hide message
+    document.getElementById('invalidForm').style.display = 'none'
+    document.getElementById('alreadyExists').style.display = 'none'
     document.getElementById('successRegistration').style.display = ''
 
+    setTimeout(() => {
+        document.getElementById("contact").reset();
+        document.getElementById('successRegistration').style.display = 'none'
+    }, 3000)
 }
 
-function validateEmail($event) {
-    let value = $event.value.toString();
+function validateName() {
+    let value = document.getElementById("name-field").value
+    let result = value.length <= 32
+    if(result){
+        hideNameValidation()
+    }else{
+        document.getElementById('nameValidationMsg').style.display = ''
+    }
+    return result
+}
+
+function hideNameValidation(){
+    document.getElementById('nameValidationMsg').style.display = 'none'
+}
+
+function validateEmail() {
+    let value = document.getElementById("email-field").value
     isValidEmail = value.match(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9_-]+\.[a-zA-Z]{2,3}/)
     if(!isValidEmail) {
         document.getElementById('emailValidationMsg').style.display = ''
+        return false
     }else{
         hideEmailValidation()
+        return true
     }
 }
 
@@ -77,19 +107,37 @@ function hideEmailValidation() {
     document.getElementById('emailValidationMsg').style.display = 'none'
 }
 
-function validateMobileNumber($event) {
-    let value = $event.value.toString();
+function validateMobileNumber() {
+    let value = document.getElementById("mobile-field").value
     let hasMatch = value.match(/^[6-9][0-9]{9}/);
-    isValidMobileNumber == hasMatch != null && value.length === 10
     if(!(hasMatch != null && value.length === 10)) {
         document.getElementById('mobileValidationMsg').style.display = ''
+        return false
     }else{
         hideMobileValidation()
+        return true
     }
 }
 
 function hideMobileValidation() {
     document.getElementById('mobileValidationMsg').style.display = 'none'
+}
+
+function onFocusAddressField($event){
+    let value = $event.value;
+    if(value.length < 120) {
+        document.getElementById('show-char-count').style.display = ``
+        document.getElementById('show-max-length').style.display = 'none'
+        document.getElementById('show-char-count').innerHTML = `${value.length}/120 characters used`
+    }else{
+        document.getElementById('show-char-count').style.display = 'none'
+        document.getElementById('show-max-length').style.display = ''
+    }
+}
+
+function onBlurAddressField(){
+    document.getElementById('show-max-length').style.display = 'none'
+    document.getElementById('show-char-count').style.display = 'none'
 }
 
 function renderTableContent(isAdult) {

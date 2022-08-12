@@ -195,3 +195,25 @@ body {
         padding: 40px 0px 40px 5px;
    }
 }
+
+.user-view {
+    justify-content: center;
+    display: flex;
+    height: 80vh;
+    align-items: center;
+    font-size: x-large;
+    width: 100vh;
+}
+
+#user-details thead tr:first-child {
+    color: var(--secondary-light);
+}
+
+#user-details td {
+    padding: 10px;
+    text-align: center;
+}
+
+#user-details tr {
+    border: 1px solid var(--secondary);
+}

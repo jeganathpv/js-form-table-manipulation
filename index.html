@@ -32,20 +32,20 @@
         <form class="contact" id="contact">
             <div class="form-control border-line">
                 <i class="icon-person_outline"></i>
-                <input class="input-field" type="text" name="name" placeholder="Name" />
+                <input id="name-field" class="input-field" type="text" name="name" onblur="validateName()" onfocus="hideNameValidation()" placeholder="Name" />
             </div>
             <span id="nameValidationMsg" class="input-info-msg" style="display: none;">Name must be less than 32 characters</span>
             <div class="form-control text-area border-line">
                 <div>
                     <i class="icon-alternate_email"></i>
-                    <input class="input-field" type="text" name="email" placeholder="Email"
+                    <input id="email-field" class="input-field" type="text" name="email" placeholder="Email"
                         onfocus="hideEmailValidation()" onblur="validateEmail(this)" />
                 </div>
                 <span id="emailValidationMsg" class="input-info-msg" style="display: none;">Invalid Email address</span>
             </div>
             <div class="form-control border-line">
                 <i class="icon-phone"></i>
-                <input class="input-field" type="text" name="mobile" placeholder="Mobile"
+                <input id="mobile-field" class="input-field" type="text" name="mobile" placeholder="Mobile"
                 onfocus="hideMobileValidation()" onblur="validateMobileNumber(this)" />
             </div>
             <span id="mobileValidationMsg" class="input-info-msg" style="display: none;">Invalid Mobile number</span>
@@ -57,8 +57,8 @@
                 <div>
                     <i class="icon-bubble2"></i>
                     <textarea class="input-field" name="address" type="text" rows="3" maxlength="120"
-                        placeholder="Your address" autocomplete="off" onfocus="onFocusAddressField()"
-                        onblur="validateAddressField()"></textarea>
+                        placeholder="Your address" autocomplete="off" onkeyup="onFocusAddressField(this)"
+                        onblur="onBlurAddressField()"></textarea>
                 </div>
                 <span id="show-max-length" class="input-info-msg" style="display: none;">Max characters reached</span>
                 <span id="show-char-count"
@@ -68,19 +68,34 @@
                 <span>Register</span>
             </div>
             <div class="response-msg">
-                <div id="successRegistration">
-                    <span class="form-info-success" style="display: none;">User added successfully</span>
+                <div id="successRegistration" style="display: none;">
+                    <span class="form-info-success">User added successfully</span>
                 </div>
             </div>
             <span id="invalidForm" class="input-info-msg form-info-error" style="display: none;">Please check errors & required fields!</span>
+            <span id="alreadyExists" class="input-info-msg form-info-error" style="display: none;">Email entered is already exists</span>
         </form>
     </section>
     <section id="user-details" style="display: none;">
-        <div class="no-content">
-            No results found
+        <div id="no-content" class="user-view" style="display: none;">
+            No users are added.
         </div>
-        <div class="content">
-
+        <div id="content" class="user-view">
+            <div class="users-list">
+                <table>
+                    <thead>
+                        <tr>
+                            <td class="title">Name</td>
+                            <td class="title">Email</td>
+                            <td class="title">Mobile</td>
+                            <td class="title">Age</td>
+                            <td class="title">Address</td>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                    </tbody>
+                </table>
+            </div>
         </div>
     </section>
 </body>
