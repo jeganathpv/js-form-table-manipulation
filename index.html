@@ -7,21 +7,24 @@
     <title>Contact form</title>
     
     <link rel="stylesheet" href="styles/styles.css">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer">
     <script src="scripts/main.js"></script>
 </head>
 <body>
     <header>
         <div class="menubar">
             <div id="menuItems" class="menu-items">
-                <div class="menu active" onclick="activateMenu(this),rerenderForm()">
+                <div class="menu active" onclick="activateMenu(this);rerenderForm();">
                     <span class="title">Home</span>
                 </div>
-                <div class="menu" onclick="activateMenu(this),renderTableContent(true)">
+                <div class="menu" onclick="activateMenu(this);setCurrentState(true);setUsersByState();renderTableContent();">
                     <span class="title">Adults</span>
                 </div>
-                <div class="menu" onclick="activateMenu(this),renderTableContent(false)">
+                <div class="menu" onclick="activateMenu(this);setCurrentState(false);setUsersByState();renderTableContent();">
                     <span class="title">Children</span>
+                </div>
+                <div class="log-out" onclick="logout()">
+                    <span class="title">Log out</span>
                 </div>
             </div>
         </div>
@@ -31,31 +34,26 @@
 
         <form class="contact" id="contact">
             <div class="form-control border-line">
-                <i class="icon-person_outline"></i>
                 <input id="name-field" class="input-field" type="text" name="name" onblur="validateName()" onfocus="hideNameValidation()" placeholder="Name" />
             </div>
             <span id="nameValidationMsg" class="input-info-msg" style="display: none;">Name must be less than 32 characters</span>
             <div class="form-control text-area border-line">
                 <div>
-                    <i class="icon-alternate_email"></i>
                     <input id="email-field" class="input-field" type="text" name="email" placeholder="Email"
                         onfocus="hideEmailValidation()" onblur="validateEmail(this)" />
                 </div>
                 <span id="emailValidationMsg" class="input-info-msg" style="display: none;">Invalid Email address</span>
             </div>
             <div class="form-control border-line">
-                <i class="icon-phone"></i>
                 <input id="mobile-field" class="input-field" type="text" name="mobile" placeholder="Mobile"
                 onfocus="hideMobileValidation()" onblur="validateMobileNumber(this)" />
             </div>
             <span id="mobileValidationMsg" class="input-info-msg" style="display: none;">Invalid Mobile number</span>
             <div class="form-control border-line">
-                <i class="icon-phone"></i>
                 <input class="input-field" type="date" name="dob" />
             </div>
             <div class="form-control text-area border-line">
                 <div>
-                    <i class="icon-bubble2"></i>
                     <textarea class="input-field" name="address" type="text" rows="3" maxlength="120"
                         placeholder="Your address" autocomplete="off" onkeyup="onFocusAddressField(this)"
                         onblur="onBlurAddressField()"></textarea>
@@ -80,7 +78,13 @@
         <div id="no-content" class="user-view" style="display: none;">
             No users are added.
         </div>
+        <div id="no-search-content" class="user-view" style="display: none;">
+            No results matches your text.
+        </div>
         <div id="content" class="user-view">
+            <div id="search-user" style="display: none;">
+                <input type="text" id="searchText" onkeyup="searchUser(this)" placeholder="Search user or email">
+            </div>
             <div class="users-list">
                 <table>
                     <thead>
@@ -90,6 +94,7 @@
                             <td class="title">Mobile</td>
                             <td class="title">Age</td>
                             <td class="title">Address</td>
+                            <td class="title"></td>
                         </tr>
                     </thead>
                     <tbody id="table-body">
