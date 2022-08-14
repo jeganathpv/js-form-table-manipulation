@@ -1,7 +1,10 @@
 // To hold users while rendering table
 currentUsers = [];
-isAdult = true;
 
+/**
+ * To activate menu from Navigation bar
+ * @params $event - To get current context
+ */
 function activateMenu($event) {
     let wholeMenuItem = document.getElementById('menuItems');
     for (let menu of wholeMenuItem.children) {
@@ -13,11 +16,10 @@ function activateMenu($event) {
     $event.classList.add('active')
 }
 
+/**
+ * To rerender or reset state for form template
+ */
 function rerenderForm() {
-    isValidForm = false;
-    isValidName = false;
-    isValidEmail = false;
-    isValidMobileNumber = false;
     document.getElementById('emailValidationMsg').style.display = 'none'
     document.getElementById('nameValidationMsg').style.display = 'none'
     document.getElementById('show-max-length').style.display = 'none'
@@ -34,6 +36,15 @@ function rerenderForm() {
 
 }
 
+/**
+ * Action perform during submission of form
+ * Validate all the required fields
+ * Perform age calculation
+ * Get array from Storage
+ * Check email exists
+ * Push into array
+ * Update array on Storage
+ */
 function onSubmitContactForm() {
     let form = document.getElementById('contact');
     if (!(validateEmail() && validateName() && validateMobileNumber() && form['dob'].value != '' && form['address'].value != null)) {
@@ -68,12 +79,17 @@ function onSubmitContactForm() {
     document.getElementById('alreadyExists').style.display = 'none'
     document.getElementById('successRegistration').style.display = ''
 
+    // To clear form input after 3s
     setTimeout(() => {
         document.getElementById("contact").reset();
         document.getElementById('successRegistration').style.display = 'none'
     }, 3000)
 }
 
+/**
+ * To validate given name is valid
+ * @returns Boolean
+ */
 function validateName() {
     let value = document.getElementById("name-field").value
     let result = value.length <= 32
@@ -85,10 +101,17 @@ function validateName() {
     return result
 }
 
+/**
+ * To hide name validation Span 
+ */
 function hideNameValidation() {
     document.getElementById('nameValidationMsg').style.display = 'none'
 }
 
+/**
+ * To validate email field
+ * @returns Boolean
+ */
 function validateEmail() {
     let value = document.getElementById("email-field").value
     isValidEmail = value.match(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9_-]+\.[a-zA-Z]{2,3}/)
@@ -101,10 +124,17 @@ function validateEmail() {
     }
 }
 
+/**
+ * To hide email validation
+ */
 function hideEmailValidation() {
     document.getElementById('emailValidationMsg').style.display = 'none'
 }
 
+/**
+ * To validate mobile number
+ * @returns Boolean
+ */
 function validateMobileNumber() {
     let value = document.getElementById("mobile-field").value
     let hasMatch = value.match(/^[6-9][0-9]{9}/);
@@ -117,11 +147,18 @@ function validateMobileNumber() {
     }
 }
 
+/**
+ * TO hide mobile validation field
+ */
 function hideMobileValidation() {
     document.getElementById('mobileValidationMsg').style.display = 'none'
 }
 
-function onFocusAddressField($event) {
+/**
+ * To show character count while typing address
+ * @param {*} $event Current context
+ */
+function onTypeAddressField($event) {
     let value = $event.value;
     if (value.length < 120) {
         document.getElementById('show-char-count').style.display = ``
@@ -133,24 +170,48 @@ function onFocusAddressField($event) {
     }
 }
 
+/**
+ * To hide address count of address
+ */
 function onBlurAddressField() {
     document.getElementById('show-max-length').style.display = 'none'
     document.getElementById('show-char-count').style.display = 'none'
 }
 
+/**
+ * To get users array from storage
+ * Convert users from JSON
+ * @returns Users Array
+ */
 function getUsersFromStorage() {
     let users = localStorage.getItem('users')
     return users == null ? [] : JSON.parse(users)
 }
 
+/**
+ * To set users array into storage
+ * Need to convert array into JSON
+ * @param {*} users Users array
+ */
 function setUsersIntoStorage(users) {
     localStorage.setItem('users', JSON.stringify(users))
 }
 
+/**
+ * To set current state as adult or child
+ * Need to store this while switching bw menu items
+ * @param {*} isAdult Boolean
+ */
 function setCurrentState(isAdult) {
     localStorage.setItem('isAdult', isAdult)
 }
 
+/**
+ * To render table context & template
+ * Show No record found if length is 0
+ * Show No search msg if length is 0 and search text has any value
+ * @returns NaN
+ */
 function renderTableContent() {
 
     // Show hide table/form
@@ -189,12 +250,22 @@ function renderTableContent() {
     document.getElementById('table-body').innerHTML = tempTableBodyTemplate;
 }
 
+/**
+ * To set current users from whole users list based on state
+ */
 function setUsersByState() {
     let users = getUsersFromStorage()
     let isAdult = localStorage.getItem('isAdult') === 'true'
     currentUsers = users.filter(user => isAdultUser(user.age) === isAdult)
 }
 
+/**
+ * To perform delete user expectation
+ * Delete can be performed using unique email id.
+ * Modify users list on storage
+ * Render table to modify content on UI
+ * @param {*} email Email ID
+ */
 function deleteUserFromTable(email) {
     let users = getUsersFromStorage()
     let index = users.findIndex(user => user.email == email)
@@ -206,6 +277,11 @@ function deleteUserFromTable(email) {
     renderTableContent();
 }
 
+/**
+ * TO get age from date string
+ * @param {*} dateString date string
+ * @returns number
+ */
 function getAgeFromDateString(dateString) {
     var today = new Date();
     var birthDate = new Date(dateString);
@@ -217,10 +293,23 @@ function getAgeFromDateString(dateString) {
     return age;
 }
 
+/**
+ * To check age is adult
+ * @param {*} age number
+ * @returns boolean
+ */
 function isAdultUser(age) {
     return age >= 18;
 }
 
+/**
+ * To search users while typing
+ * Get search text from current context
+ * If length is 0, set users by state
+ * else perform filter and set as current user
+ * Render table to reflect on UI
+ * @param {*} $event current context
+ */
 function searchUser($event) {
     let users = getUsersFromStorage()
     let searchText = $event.value
@@ -232,6 +321,9 @@ function searchUser($event) {
     renderTableContent()
 }
 
+/**
+ * To clear storage on logout
+ */
 function logout() {
     localStorage.clear()
 }
